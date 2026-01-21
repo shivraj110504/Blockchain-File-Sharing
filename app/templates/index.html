@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% block content %}
+<style type="text/css">
+  :root {
+    --primary-dark: #181A2F;
+    --secondary-dark: #242E49;
+    --tertiary-dark: #37415C;
+    --accent-orange: #FDA481;
+    --accent-red: #B4182D;
+    --accent-deep-red: #54162B;
+  }
+
+  .card {
+    background-color: var(--secondary-dark);
+    border: 1px solid var(--tertiary-dark);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--secondary-dark) 100%);
+    border-bottom: 2px solid var(--accent-orange);
+    font-weight: 600;
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .form-control {
+    background-color: var(--tertiary-dark);
+    border: 1px solid var(--accent-orange);
+    color: white;
+    border-radius: 5px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    background-color: var(--secondary-dark);
+    border-color: var(--accent-orange);
+    color: white;
+    box-shadow: 0 0 0 0.2rem rgba(253, 164, 129, 0.25);
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-red) 100%);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(253, 164, 129, 0.4);
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+
+  .btn-warning {
+    background-color: var(--accent-orange);
+    border: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-warning:hover {
+    background-color: var(--accent-red);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-secondary {
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-secondary:hover {
+    background-color: var(--accent-orange);
+    color: var(--primary-dark);
+    border-color: var(--accent-orange);
+  }
+
+  .alert {
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+  }
+
+  .alert-primary {
+    background-color: var(--tertiary-dark);
+    color: var(--accent-orange);
+    border-left: 4px solid var(--accent-orange);
+  }
+
+  .alert-success {
+    background-color: var(--tertiary-dark);
+    color: #28a745;
+    border-left: 4px solid #28a745;
+  }
+
+  .alert-info {
+    background-color: var(--tertiary-dark);
+    color: #17a2b8;
+    border-left: 4px solid #17a2b8;
+  }
+
+  .file-item {
+    background-color: var(--tertiary-dark);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-orange);
+    transition: all 0.3s ease;
+  }
+
+  .file-item:hover {
+    background-color: var(--secondary-dark);
+    transform: translateX(5px);
+  }
+
+  .file-key {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--accent-orange);
+  }
+
+  .auth-toggle {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--accent-orange);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .auth-toggle:hover {
+    color: white;
+  }
+
+  .welcome-section {
+    background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--tertiary-dark) 100%);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--accent-orange);
+  }
+
+  .user-key-display {
+    background-color: var(--tertiary-dark);
+    padding: 0.75rem;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-orange);
+    word-break: break-all;
+  }
+
+  label {
+    color: white;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  h2,
+  h3,
+  h5 {
+    color: white;
+  }
+
+  .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .input-group-append .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .section-title {
+    color: var(--accent-orange);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+</style>
+
+<div class="container-fluid">
+  {% if user_key %}
+  <!-- Logged In View -->
+  <div class="welcome-section">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h4 style="color: var(--accent-orange); margin-bottom: 0.5rem;">Welcome back, {{ username }}!</h4>
+        <p style="margin: 0; color: rgba(255,255,255,0.8);">Your Secret Key: <span class="user-key-display"
+            style="display: inline-block; padding: 0.25rem 0.5rem;">{{ user_key }}</span></p>
+      </div>
+      <a href="/logout" class="btn btn-logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Upload Section -->
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-cloud-upload-alt"></i> Upload File
+        </div>
+        <div class="card-body">
+          <form action="/submit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="userKey" value="{{ user_key }}">
+            <input type="hidden" name="username" value="{{ username }}">
+
+            <div class="form-group">
+              <label for="fileUpld"><i class="fas fa-file"></i> Select File:</label>
+              <input type="file" id="fileUpld" name="v_file" accept="*" class="form-control-file" required
+                style="color: white;" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-upload"></i> Upload to Blockchain
+            </button>
+          </form>
+
+          <hr style="border-color: var(--tertiary-dark); margin: 2rem 0;">
+
+          <h5 class="section-title" style="font-size: 1rem;">View Shared Files</h5>
+          <form action="/view_shared" method="POST">
+            <div class="form-group">
+              <label><i class="fas fa-key"></i> Sender's Secret Key:</label>
+              <input type="text" name="sender_key" class="form-control" placeholder="Enter sender's key" required>
+            </div>
+            <button type="submit" class="btn btn-warning btn-block">
+              <i class="fas fa-eye"></i> View Files
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Files Section -->
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-folder-open"></i> My Files
+        </div>
+        <div class="card-body" style="max-height: 600px; overflow-y: auto;">
+          {% if my_files %}
+          {% for file in my_files %}
+          <div class="file-item">
+            <h6 style="color: white; margin-bottom: 0.5rem;">
+              <i class="fas fa-file-alt"></i> {{ file.filename }}
+            </h6>
+            <p class="file-key" style="margin-bottom: 1rem;">
+              <small>Key: {{ file.file_key }}</small>
+            </p>
+
+            <form action="/share" method="POST" class="mb-2">
+              <input type="hidden" name="file_key" value="{{ file.file_key }}">
+              <input type="hidden" name="userKey" value="{{ user_key }}">
+              <div class="input-group">
+                <input type="text" name="recipient_key" class="form-control" placeholder="Recipient's key" required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fas fa-share"></i> Share
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <a href="/download/{{ file.file_key }}" class="btn btn-success btn-sm btn-block">
+              <i class="fas fa-download"></i> Download
+            </a>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="text-center" style="padding: 3rem 1rem;">
+            <i class="fas fa-inbox" style="font-size: 4rem; color: var(--tertiary-dark); margin-bottom: 1rem;"></i>
+            <p style="color: rgba(255,255,255,0.6);">No files uploaded yet. Upload your first file to get started!</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Login/Signup View -->
+  <div class="row mt-5">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3 style="margin: 0;">
+            <i class="fas fa-user-circle"></i>
+            <span id="authTitle">Sign Up</span>
+          </h3>
+        </div>
+        <div class="card-body">
+          <!-- Signup Form -->
+          <form id="signupForm" action="/signup" method="POST">
+            <div class="form-group" id="nameGroup">
+              <label><i class="fas fa-user"></i> Full Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> Email Address</label>
+              <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> Password</label>
+              <input type="password" name="password" class="form-control" placeholder="Enter your password" required
+                minlength="6">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-user-plus"></i> Create Account
+            </button>
+          </form>
+
+          <!-- Login Form (Hidden by default) -->
+          <form id="loginForm" action="/login" method="POST" style="display: none;">
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> Email Address</label>
+              <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> Password</label>
+              <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </form>
+
+          <div class="auth-toggle">
+            <p id="toggleText">
+              Already have an account?
+              <a href="#" id="toggleLink" style="color: var(--accent-orange); font-weight: 600;">Login here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4" style="color: rgba(255,255,255,0.7);">
+        <p><i class="fas fa-shield-alt"></i> Secure blockchain-based file storage</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  // Toggle between login and signup forms
+  const signupForm = document.getElementById('signupForm');
+  const loginForm = document.getElementById('loginForm');
+  const authTitle = document.getElementById('authTitle');
+  const toggleText = document.getElementById('toggleText');
+  const toggleLink = document.getElementById('toggleLink');
+  const nameGroup = document.getElementById('nameGroup');
+
+  let isSignup = true;
+
+  if (toggleLink) {
+    toggleLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      isSignup = !isSignup;
+
+      if (isSignup) {
+        signupForm.style.display = 'block';
+        loginForm.style.display = 'none';
+        authTitle.textContent = 'Sign Up';
+        toggleText.innerHTML = 'Already have an account? <a href="#" id="toggleLink" style="color: var(--accent-orange); font-weight: 600;">Login here</a>';
+      } else {
+        signupForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        authTitle.textContent = 'Login';
+        toggleText.innerHTML = 'Don\'t have an account? <a href="#" id="toggleLink" style="color: var(--accent-orange); font-weight: 600;">Sign up here</a>';
+      }
+
+      // Re-attach event listener to new link
+      document.getElementById('toggleLink').addEventListener('click', arguments.callee);
+    });
+  }
+</script>
+
+{% endblock %}

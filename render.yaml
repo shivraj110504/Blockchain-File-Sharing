@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: storiumx
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run_app:app
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: BLOCKCHAIN_NODE_ADDR
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: FLASK_ENV
+        value: production
